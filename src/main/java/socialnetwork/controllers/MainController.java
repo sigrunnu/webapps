@@ -52,4 +52,24 @@ public class MainController {
         model.addAttribute("publications", publications);
         return "main_view";
     }
+
+    @GetMapping(path = "/user")
+    public String userView(Model model) {
+        User profileUser = new User();
+        profileUser.setName("Sigrun Nummedal");
+        profileUser.setDescription("Addicted to social networks");
+
+        List<Publication> publications = new ArrayList<Publication>();
+        model.addAttribute("profileUser", profileUser);
+        Publication pub1 = new Publication();
+        pub1.setUser(profileUser);
+        pub1.setText("Hey this is my first post.");
+        pub1.setRestricted(true);
+        pub1.setTimestamp(new Date());
+        publications.add(pub1);
+        model.addAttribute("publications", publications);
+
+        return "user_view";
+
+    }
 }
