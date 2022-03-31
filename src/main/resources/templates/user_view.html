@@ -9,6 +9,11 @@
 
 <body>
     <div class="profile_user" th:text="${profileUser.getName()}">Profile user name</div>
+    <p>Description:</p>
+
+    <div class="pofile_desc" th:text="${profileUser.getDescription()}">Profile description</div>
+    <button>Add friend</button>
+
     <h2>Últimas publicaciones</h2>
     <div class="publications">
         <div class="publication" th:each="publication : ${publications}">

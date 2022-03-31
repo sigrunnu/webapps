@@ -55,18 +55,24 @@ public class MainController {
 
     @GetMapping(path = "/user")
     public String userView(Model model) {
-        User profileUser = new User();
-        profileUser.setName("Sigrun Nummedal");
-        profileUser.setDescription("Addicted to social networks");
+        User user = new User();
+        user.setName("Sigrun Nummedal");
+        user.setDescription("Addicted to social networks");
 
         List<Publication> publications = new ArrayList<Publication>();
-        model.addAttribute("profileUser", profileUser);
+        model.addAttribute("profileUser", user);
         Publication pub1 = new Publication();
-        pub1.setUser(profileUser);
+        pub1.setUser(user);
         pub1.setText("Hey this is my first post.");
         pub1.setRestricted(true);
         pub1.setTimestamp(new Date());
         publications.add(pub1);
+        Publication pub2 = new Publication();
+        pub2.setUser(user);
+        pub2.setText("Hey this is my second post.");
+        pub2.setRestricted(true);
+        pub2.setTimestamp(new Date());
+        publications.add(pub2);
         model.addAttribute("publications", publications);
 
         return "user_view";
