@@ -1,20 +1,28 @@
 body {
-    background-color: beige;
+  background-color: beige;
+  margin-top: 3em;
 }
 
 .publication .user {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .publication .timestamp {
-    font-style: italic;
+  font-style: italic;
 }
 
 .publication {
-    margin-top: 1em;
-    margin-bottom: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .publication_text {
-    font-size: larger;
+  font-size: larger;
+}
+.profile {
+  text-align: right;
+}
+
+.profile_name {
+  font-size: 2rem;
 }
