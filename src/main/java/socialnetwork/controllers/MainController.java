@@ -40,8 +40,14 @@ public class MainController {
         pub2.setText("Watching TV for 8 hours in a row. It's a new record!!!");
         pub2.setRestricted(true);
         pub2.setTimestamp(new Date());
+        Publication pub3 = new Publication();
+        pub3.setUser(userJohn);
+        pub3.setText("Just lifted 77,5 kg in squats #lol");
+        pub3.setRestricted(true);
+        pub3.setTimestamp(new Date());
         publications.add(pub1);
         publications.add(pub2);
+        publications.add(pub3);
         model.addAttribute("profileUser", profileUser);
         model.addAttribute("publications", publications);
         return "main_view";
