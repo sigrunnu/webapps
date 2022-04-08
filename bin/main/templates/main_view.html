@@ -30,10 +30,16 @@
                         <span class="timestamp" th:text="${publication.getTimestamp()}">15 de marzo de 2021</span>
                     </div>
                     <div class="publication_text" th:text="${publication.getText()}">
-                        El texto del mensaje
+                        El texto del mensajes
                     </div>
                 </div>
             </div>
+            <div class="col-12"><div th:text="${#authentication.principal.username}">
+                User name here
+            </div></div>
+            <div class="col-12"><form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form></div>
         </div>
     </div>
 </body>

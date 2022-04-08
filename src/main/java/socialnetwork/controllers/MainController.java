@@ -12,6 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import socialnetwork.model.Publication;
 import socialnetwork.model.User;
 
+// Necesitarás importar algunas clases adicionales:
+import org.springframework.beans.factory.annotation.Autowired;
+import socialnetwork.services.UserService;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import javax.validation.Valid;
+import org.springframework.validation.BindingResult;
+import socialnetwork.model.UserRepository;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 @Controller
 @RequestMapping("/")
 public class MainController {
@@ -83,4 +94,35 @@ public class MainController {
     public String loginForm() {
         return "login";
     }
+    @GetMapping(path = "/register")
+    public String register(User user) {
+        return "register";
+    }
+
+    // A añadir en el bloque de atributos:
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    // Código alternativo para el método "register" con mensaje POST:
+    @PostMapping(path = "/register")
+    public String register(@Valid @ModelAttribute("user") User user,
+                        BindingResult bindingResult,
+                        @RequestParam String passwordRepeat) {
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            return "redirect:register?duplicate_email";
+        }
+        if (user.getPassword().equals(passwordRepeat)) {
+            userService.register(user);
+        } else {
+            return "redirect:register?passwords";
+        }
+        return "redirect:login?registered";
+    }
+
 }
