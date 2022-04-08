@@ -1,5 +1,5 @@
 body {
-  background-color: beige;
+  background-color: whitesmoke;
   margin-top: 3em;
 }
 
@@ -25,4 +25,17 @@ body {
 
 .profile_name {
   font-size: 2rem;
+}
+
+.login-form > div {
+  padding: 1em 0;
+}
+
+.login-container {
+  max-width: 35%;
+  margin: auto;
+}
+
+.logout-btn {
+  margin-top: 0.3em;
 }
