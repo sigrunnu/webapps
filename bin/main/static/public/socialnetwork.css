@@ -26,3 +26,7 @@ body {
 .profile_name {
   font-size: 2rem;
 }
+
+.login-form > * {
+  padding: 1em;
+}
