@@ -27,6 +27,15 @@ body {
   font-size: 2rem;
 }
 
-.login-form > * {
-  padding: 1em;
+.login-ctn {
+  margin: 0 50%;
+}
+
+.login-form > div {
+  padding: 1em 0;
+}
+
+.login-container {
+  max-width: 35%;
+  margin: auto;
 }
