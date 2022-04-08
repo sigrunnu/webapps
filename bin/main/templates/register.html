@@ -23,7 +23,6 @@
         </div>
         <form th:action="@{/register}" th:object="${user}" method="post" class="row login-form">
             <div class="col-12 form-group">
-
                 <label>User name: </label><input class="form-control" name="name" type="text" th:field="*{name}" required>
                 <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
             </div>
