@@ -25,26 +25,28 @@
         </div>
       </div>
 
-      <form th:action="@{/login}" method="post" class="row login-form">
-        <div class="col-12 form-group">
-          <label>Email: </label>
-          <input type="email" name="username" class="form-control" required />
-        </div>
+      <div class="row">
+        <form th:action="@{/login}" method="post" class="login-form">
+          <div class="col-12 form-group">
+            <label>Email: </label>
+            <input type="email" name="username" class="form-control" required />
+          </div>
 
-        <div class="col-12 form-group">
-          <label>Password: </label>
-          <input
-            type="password"
-            name="password"
-            class="form-control"
-            required
-          />
-        </div>
+          <div class="col-12 form-group">
+            <label>Password: </label>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              required
+            />
+          </div>
 
-        <button type="submit" id="login-btn" class="col-12 btn btn-dark">
-          Sign-in
-        </button>
-      </form>
+          <button type="submit" id="login-btn" class="col-12 btn btn-dark">
+            Sign-in
+          </button>
+        </form>
+      </div>
     </div>
   </body>
 </html>

@@ -1,5 +1,5 @@
 body {
-  background-color: beige;
+  background-color: whitesmoke;
   margin-top: 3em;
 }
 
@@ -27,10 +27,6 @@ body {
   font-size: 2rem;
 }
 
-.login-ctn {
-  margin: 0 50%;
-}
-
 .login-form > div {
   padding: 1em 0;
 }
@@ -38,4 +34,12 @@ body {
 .login-container {
   max-width: 35%;
   margin: auto;
+}
+
+.logout-btn {
+  margin-top: 0.3em;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
