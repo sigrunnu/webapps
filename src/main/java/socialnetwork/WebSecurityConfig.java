@@ -22,13 +22,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          * Access to any other resource is premitted only for authenticated users.
          */
         http
-        .authorizeRequests()
-                .antMatchers("/login", "/public/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/login", "/public/**", "/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
-            .formLogin().loginPage("/login").permitAll()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
-            .logout().permitAll();
+                .logout().permitAll();
     }
 
     @Bean
@@ -40,8 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          * This code will be replaced in a later stage
          * in order to aythenticate users from a database.
          */
-        UserDetails user =
-             User.withDefaultPasswordEncoder()
+        UserDetails user = User.withDefaultPasswordEncoder()
                 .username("user@example.com")
                 .password("password")
                 .roles("USER")
