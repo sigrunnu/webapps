@@ -13,9 +13,9 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container loginRegisterBody p-5">
         <div class="row">
-            <div class="col-2 profile">
+            <div class="col-2">
                 <i class="fas fa-user fa-6x"></i>
             </div>
             <div class="col-10 pl-2">
@@ -23,33 +23,39 @@
                     <div class="col-10">
                         <div class="profile_name" th:text="${profileUser.getName()}">
                             Profile user name</div>
-                        <div class="pofile_desc" th:text="${profileUser.getDescription()}">Profile description
+                        <div class="pofile_desc mb-3" th:text="${profileUser.getDescription()}">Profile description
                         </div>
                     </div>
                     <div class="col-2">
 
                         <button type="button" class="btn btn-success">Add friend</button>
                     </div>
-
-
                 </div>
-
-
-                <h2 class="mt-5">Últimas publicaciones</h2>
+                </div>
+                <div class="col-12">
+                <h3 class="mt-5">Publicaciones</h3>
                 <div class="publications">
                     <div class="publication" th:each="publication : ${publications}">
-                        <div class="publication_meta">
-                            <span class="user" th:text="${publication.getUser().getName()}">Pepe</span>
-                            <span class="publication_restricted" th:if="${publication.isRestricted()}">restricted</span>
-                            <span class="publication_public" th:if="${!publication.isRestricted()}">public</span>
-                            <span class="timestamp" th:text="${publication.getTimestamp()}">15 de marzo de 2021</span>
-                        </div>
-                        <div class="publication_text" th:text="${publication.getText()}">
-                            El texto del mensaje
+                            <div class="card">
+                                <div class="card-body">
+                                <div class="publication_meta">
+                                    <span class="user" th:text="${publication.getUser().getName()}">Pepe</span>
+                                    <span class="publication_restricted" th:if="${publication.isRestricted()}">restricted</span>
+                                    <span class="publication_public" th:if="${!publication.isRestricted()}">public</span>
+                                    <span class="timestamp" th:text="${publication.getTimestamp()}">15 de marzo de 2021</span>
+                                </div>
+                                <div class="publication_text" th:text="${publication.getText()}">
+                                    El texto del mensaje
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <a href="/" class="btn btn-success logout-btn mt-4">
+                    Back to main page
+                </a>
             </div>
+           
         </div>
     </div>
 </body>
