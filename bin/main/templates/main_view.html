@@ -53,11 +53,12 @@
             <div class="card">
               <div class="card-body">
                 <div class="publication_meta">
-                  <span
+                 
+                    <a 
                     class="user"
-                    th:text="${publication.getUser().getName()}"
-                    >Pepe</span
-                  >
+                    th:href="@{/user/{id}(id=${publication.getUser().getId()})}"
+                    th:text="${publication.getUser().getName()}">Pepe</a>
+                    
                   <span
                     class="publication_restricted"
                     th:if="${publication.isRestricted()}"
