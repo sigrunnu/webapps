@@ -36,44 +36,9 @@ public class MainController {
     @GetMapping(path = "/")
     public String mainView(Model model, Principal principal, Publication publication) {        
         User user = userRepository.findByEmail(principal.getName());
-        
-        User profileUser = new User();
-        profileUser.setName("Mary Jones");
-        profileUser.setDescription("Addicted to social networks");
-        List<Publication> publications = new ArrayList<Publication>();
-        
-        User userJane = new User();
-        userJane.setEmail("jane@example.com");
-        userJane.setName("Jane Doe");
-        userJane.setDescription("I love dogs!");
-        User userJohn = new User();
-        
-        userJohn.setEmail("john@excample.com");
-        userJohn.setName("John Doe");
-        userJohn.setDescription("Professional couch potato");
-        Publication pub1 = new Publication();
-        pub1.setUser(userJane);
-        pub1.setText("I've published a new tutorial about how to create a Spring MVC app!!!");
-        pub1.setRestricted(false);
-        pub1.setTimestamp(new Date());
-        Publication pub2 = new Publication();
-        pub2.setUser(userJohn);
-        pub2.setText("Watching TV for 8 hours in a row. It's a new record!!!");
-        pub2.setRestricted(true);
-        pub2.setTimestamp(new Date());
-        Publication pub3 = new Publication();
-        pub3.setUser(userJohn);
-        pub3.setText("Just lifted 77,5 kg in squats #lol");
-        pub3.setRestricted(true);
-        pub3.setTimestamp(new Date());
-        publications.add(pub1);
-        publications.add(pub2);
-        publications.add(pub3);
 
-        model.addAttribute("profileUser", profileUser);
-        model.addAttribute("publications", publications);
+        model.addAttribute("publications", publicationRepository.findFirst10ByRestrictedIsFalseOrderByTimestampDesc());
         model.addAttribute("user", user);
-
         return "main_view";
     }
 
