@@ -24,7 +24,7 @@
           </div>
           <div class="col-6 profile">
           <i class="fas fa-user"></i>
-          <span th:text="${#authentication.principal.username}">
+          <span th:text="${user.getName()}">
             User name here
           </span>
           <form th:action="@{/logout}" method="post">

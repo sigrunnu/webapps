@@ -3,6 +3,7 @@ package socialnetwork.controllers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,16 +29,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 
     @GetMapping(path = "/")
-    public String mainView(Model model) {
+    public String mainView(Model model, Principal principal) {        
+        User user = userRepository.findByEmail(principal.getName());
+        
         User profileUser = new User();
         profileUser.setName("Mary Jones");
         profileUser.setDescription("Addicted to social networks");
         List<Publication> publications = new ArrayList<Publication>();
+        
         User userJane = new User();
         userJane.setEmail("jane@example.com");
         userJane.setName("Jane Doe");
         userJane.setDescription("I love dogs!");
         User userJohn = new User();
+        
         userJohn.setEmail("john@excample.com");
         userJohn.setName("John Doe");
         userJohn.setDescription("Professional couch potato");
@@ -59,8 +64,11 @@ public class MainController {
         publications.add(pub1);
         publications.add(pub2);
         publications.add(pub3);
+
         model.addAttribute("profileUser", profileUser);
         model.addAttribute("publications", publications);
+        model.addAttribute("user", user);
+
         return "main_view";
     }
 
@@ -94,6 +102,7 @@ public class MainController {
     public String loginForm() {
         return "login";
     }
+
     @GetMapping(path = "/register")
     public String register(User user) {
         return "register";
