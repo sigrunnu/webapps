@@ -24,9 +24,7 @@
           </div>
           <div class="col-6 profile">
           <i class="fas fa-user"></i>
-          <span th:text="${#authentication.principal.username}">
-            User name here
-          </span>
+          <a th:href="@{/user/{userId}(userId=${user.getId()})}" th:text="${user.getName()}">User name</a>
           <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-success logout-btn">
               Sign out
@@ -37,15 +35,28 @@
       <div class="row">
         <h2 class="col-12">Últimas publicaciones</h2>
         <div class="publications col-12">
+          <form th:action="@{/post}" th:object="${publication}" method="post">
+            <div>
+                <textarea th:field="*{text}" placeholder="Your publication text here" required></textarea>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" th:field="*{restricted}">
+                    For friends only
+                </label>
+            </div>
+            <div><input type="submit" value="Post!"></div>
+          </form>
           <div class="publication" th:each="publication : ${publications}">
             <div class="card">
               <div class="card-body">
                 <div class="publication_meta">
-                  <span
+                 
+                    <a 
                     class="user"
-                    th:text="${publication.getUser().getName()}"
-                    >Pepe</span
-                  >
+                    th:href="@{/user/{id}(id=${publication.getUser().getId()})}"
+                    th:text="${publication.getUser().getName()}">Pepe</a>
+                    
                   <span
                     class="publication_restricted"
                     th:if="${publication.isRestricted()}"
