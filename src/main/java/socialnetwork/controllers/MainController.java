@@ -107,7 +107,9 @@ public class MainController {
     }
 
    @GetMapping(path = "/editDesc")
-   public String editDesc() {
+   public String editDesc(Principal principal, Model model) {
+       User user = userRepository.findByEmail(principal.getName());
+       model.addAttribute("user", user);
        return "description";
    }  
 
