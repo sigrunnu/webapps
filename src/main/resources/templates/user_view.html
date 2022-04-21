@@ -6,7 +6,7 @@
     <title>Social network</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="public/socialnetwork.css">
+    <link rel="stylesheet" th:href="@{/public/socialnetwork.css}">
     <script src="https://kit.fontawesome.com/3559a8c856.js" crossorigin="anonymous"></script>
 
 
@@ -21,11 +21,12 @@
             <div class="col-10 pl-2">
                 <div class="row">
                     <div class="col-10">
-                        <div class="profile_name" th:text="${profileUser.getName()}">
+                        <div class="profile_name" th:text="${user.getName()}">
                             Profile user name</div>
-                        <div class="pofile_desc mb-3" th:text="${profileUser.getDescription()}">Profile description
+                        <div class="pofile_desc mb-3" th:text="${user.getDescription()}">Profile description
                         </div>
                     </div>
+                    <!-- TODO: implement a check to only dispaly add friend button when the profileuser and logged in user are different -->
                     <div class="col-2">
 
                         <button type="button" class="btn btn-success">Add friend</button>
@@ -51,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="/" class="btn btn-success logout-btn mt-4">
+                <a th:href="@{/}" class="btn btn-success logout-btn mt-4">
                     Back to main page
                 </a>
             </div>
