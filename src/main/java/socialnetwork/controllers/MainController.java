@@ -1,8 +1,6 @@
 package socialnetwork.controllers;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
@@ -114,17 +112,14 @@ public class MainController {
    }  
 
    @PostMapping(path = "/postDesc")
-   public String postDescription(
-                                    BindingResult bindingResult,
-                                    Principal principal, 
-                                    @RequestParam String description) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/user/{userId}";
-        }
+   public String postDescription(Principal principal, @RequestParam String description) {
+        
         User user = userRepository.findByEmail(principal.getName());
+        int userId = user.getId();
         user.setDescription(description);
         userRepository.save(user);
-        return "redirect:/user/{userId}";
+        
+        return "redirect:/user/" + Integer.toString(userId);
     } 
 
 
