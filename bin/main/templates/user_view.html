@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <!-- TODO: implement a check to only dispaly add friend button when the profileuser and logged in user are different -->
-                    <div class="col-2">
+                    <div class="col-2" th:if="${#authentication.principal.username != user.getEmail()}">
 
                         <button type="button" class="btn btn-success">Add friend</button>
                     </div>
