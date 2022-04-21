@@ -108,4 +108,24 @@ public class MainController {
         return "redirect:/";
     }
 
+   @GetMapping(path = "/editDesc")
+   public String editDesc() {
+       return "description";
+   }  
+
+   @PostMapping(path = "/postDesc")
+   public String postDescription(
+                                    BindingResult bindingResult,
+                                    Principal principal, 
+                                    @RequestParam String description) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/user/{userId}";
+        }
+        User user = userRepository.findByEmail(principal.getName());
+        user.setDescription(description);
+        userRepository.save(user);
+        return "redirect:/user/{userId}";
+    } 
+
+
 }

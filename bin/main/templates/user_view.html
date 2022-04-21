@@ -22,14 +22,18 @@
                 <div class="row">
                     <div class="col-10">
                         <div class="profile_name" th:text="${user.getName()}">
-                            Profile user name</div>
-                        <div class="pofile_desc mb-3" th:text="${user.getDescription()}">Profile description
+                            Profile user name
+                        </div>
+                        <div class="pofile_desc mb-3" th:text="${user.getDescription()}">
+                            Profile description
                         </div>
                     </div>
-                    <!-- TODO: implement a check to only dispaly add friend button when the profileuser and logged in user are different -->
                     <div class="col-2" th:if="${#authentication.principal.username != user.getEmail()}">
-
                         <button type="button" class="btn btn-success">Add friend</button>
+                    </div>
+                    <div class="col-2" th:if="${#authentication.principal.username == user.getEmail()}">
+                        <a th:href="@{/editDesc}">Edit description</a>
+                        <button type="button" class="btn btn-success">Edit description</button>
                     </div>
                 </div>
                 </div>
