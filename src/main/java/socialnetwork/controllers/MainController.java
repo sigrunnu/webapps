@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 
     @GetMapping(path = "/")
-    public String mainView(Model model, Principal principal) {        
+    public String mainView(Model model, Principal principal, Publication publication) {        
         User user = userRepository.findByEmail(principal.getName());
         
         User profileUser = new User();

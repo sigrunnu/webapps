@@ -37,6 +37,18 @@
       <div class="row">
         <h2 class="col-12">Últimas publicaciones</h2>
         <div class="publications col-12">
+          <form th:action="@{/post}" th:object="${publication}" method="post">
+            <div>
+                <textarea th:field="*{text}" placeholder="Your publication text here" required></textarea>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" th:field="*{restricted}">
+                    For friends only
+                </label>
+            </div>
+            <div><input type="submit" value="Post!"></div>
+          </form>
           <div class="publication" th:each="publication : ${publications}">
             <div class="card">
               <div class="card-body">
