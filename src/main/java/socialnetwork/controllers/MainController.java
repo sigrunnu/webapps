@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import socialnetwork.model.Publication;
+import socialnetwork.model.PublicationRepository;
 import socialnetwork.model.User;
 
-// Necesitarás importar algunas clases adicionales:
 import org.springframework.beans.factory.annotation.Autowired;
 import socialnetwork.services.UserService;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -132,6 +132,23 @@ public class MainController {
             return "redirect:register?passwords";
         }
         return "redirect:login?registered";
+    }
+
+    @Autowired
+    private PublicationRepository publicationRepository;
+
+    @PostMapping(path = "/post")
+    public String postPublication(@Valid @ModelAttribute("publication") Publication publication,
+                              BindingResult bindingResult,
+                              Principal principal) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/";
+        }
+        User user = userRepository.findByEmail(principal.getName());
+        publication.setUser(user);
+        publication.setTimestamp(new Date());
+        publicationRepository.save(publication);
+        return "redirect:/";
     }
 
 }
