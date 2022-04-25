@@ -8,11 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import socialnetwork.model.FriendshipRequest;
+import socialnetwork.model.FriendshipRequestRepository;
 import socialnetwork.model.Publication;
 import socialnetwork.model.PublicationRepository;
 import socialnetwork.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import socialnetwork.services.FriendshipRequestException;
+import socialnetwork.services.FriendshipRequestService;
+import socialnetwork.services.FriendshipRequestServiceImpl;
 import socialnetwork.services.UserService;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -123,6 +129,10 @@ public class MainController {
         
         return "redirect:/user/" + Integer.toString(userId);
     } 
+
+
+   
+
 
 
 }

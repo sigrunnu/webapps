@@ -20,7 +20,7 @@
             </div>
             <div class="col-10 pl-2">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-8">
                         <div class="profile_name" th:text="${user.getName()}">
                             Profile user name
                         </div>
@@ -28,14 +28,17 @@
                             Profile description
                         </div>
                     </div>
-                    <div class="col-2" th:if="${#authentication.principal.username != user.getEmail()}">
-                        <button type="button" class="btn btn-success">Add friend</button>
+                    <div class="col-4" th:if="${#authentication.principal.username != user.getEmail()}">
+                        <div th:if="${user != sessionUser && !user.getFriends().contains(sessionUser)}">
+                            
+                        </div>
                     </div>
                     <div class="col-2" th:if="${#authentication.principal.username == user.getEmail()}">
                         <a th:href="@{/editDesc}">Edit description</a>
                     </div>
                 </div>
                 </div>
+             
                 <div class="col-12">
                 <h3 class="mt-5">Publicaciones</h3>
                 <div class="publications">
