@@ -69,6 +69,10 @@ public class User {
         this.friends = friends;
     }
 
+    public void setFriend(User friend) {
+        this.friends.add(friend);
+    }
+
     public Integer getId() {
         return id;
     }

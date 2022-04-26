@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import socialnetwork.model.FriendshipRequest;
 import socialnetwork.model.FriendshipRequestRepository;
 import socialnetwork.model.User;
+import socialnetwork.model.UserRepository;
+import socialnetwork.model.FriendshipRequest.State;
 
 @Service
 public class FriendshipRequestServiceImpl implements FriendshipRequestService {
@@ -35,14 +37,42 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         friendshipRequestRepository.save(request);
         return request;
     }
+   @Autowired
+   UserRepository userRepository; 
 
     @Override
     public void acceptFriendshipRequest(FriendshipRequest request, User receiver)
         throws FriendshipRequestException {
+            if(request.getState() != State.OPEN){
+                throw new FriendshipRequestException("Request is not open.");
+            }
+            else if(receiver != request.getReceiver()){
+                throw new FriendshipRequestException("Receiver is not correct.");
+            }
+            User sender = request.getSender();
+            request.setState(State.ACCEPTED);
+            request.setAnswerTimestamp(new Date());
+
+            receiver.setFriend(sender);
+            sender.setFriend(receiver);
+
+            userRepository.save(receiver);
+            userRepository.save(sender);
+            friendshipRequestRepository.save(request);
     }
 
     @Override
     public void declineFriendshipRequest(FriendshipRequest request, User receiver)
         throws FriendshipRequestException {
+            if(request.getState() != State.OPEN){
+                throw new FriendshipRequestException("Request is not open.");
+            }
+            else if(receiver != request.getReceiver()){
+                throw new FriendshipRequestException("Receiver is not correct.");
+            }
+            request.setState(State.DECLINED);
+            request.setAnswerTimestamp(new Date());
+
+            friendshipRequestRepository.save(request);
     }
 }

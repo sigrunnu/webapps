@@ -28,12 +28,24 @@
                             Profile description
                         </div>
                     </div>
-                    <div class="col-4" th:if="${#authentication.principal.username != user.getEmail()}">
-                        <div th:if="${user != sessionUser && !user.getFriends().contains(sessionUser)}">
+                        <div class="col-4" th:if="${#authentication.principal.username != user.getEmail()}">
+                            <div th:if="${request != null && user.getFriends().contains(#authentication.principal.username)}">
+                                <p>You are friends.</p>
+            
+                            </div>
+                            <div th:if="${request == null && !user.getFriends().contains(#authentication.principal.username)}">
+                            <form th:action="@{/requestFriendship}" method="post">
+                                <input type="hidden" name="userId" th:value="${user.getId()}">
+                                <input type="submit" class="btn btn-success" value="Request friendship">
+                            </form>
+                            </div>
+                             <div th:if="${request != null && !user.getFriends().contains(#authentication.principal.username)}">
+                                <input type="submit" class="btn" value="Requested" disabled>
+                            </div>
                             
                         </div>
-                    </div>
-                    <div class="col-2" th:if="${#authentication.principal.username == user.getEmail()}">
+                       
+                    <div class="col-4" th:if="${#authentication.principal.username == user.getEmail()}">
                         <a th:href="@{/editDesc}">Edit description</a>
                     </div>
                 </div>
