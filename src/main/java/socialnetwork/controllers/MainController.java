@@ -46,8 +46,7 @@ public class MainController {
     @GetMapping(path = "/")
     public String mainView(Model model, Principal principal, Publication publication) {        
         User user = userRepository.findByEmail(principal.getName());
-
-        model.addAttribute("publications", publicationRepository.findFirst10ByRestrictedIsFalseOrderByTimestampDesc());
+        model.addAttribute("publications", publicationRepository.findFirst20ByUserInOrderByTimestampDesc(user.getFriends()));
         model.addAttribute("user", user);
         model.addAttribute("friendshipRequests", friendshipRequestRepository.findByReceiverAndState(user, FriendshipRequest.State.OPEN));
         return "main_view";
@@ -66,7 +65,12 @@ public class MainController {
         User sessionUser = userRepository.findByEmail(principal.getName());
         User user = userOpt.get();
         model.addAttribute("user", user);
-        model.addAttribute("publications", publicationRepository.findByUserOrderByTimestampDesc(user));
+        model.addAttribute("sessionUser", sessionUser);
+        if(user.getFriends().contains(sessionUser) || user == sessionUser ){
+            model.addAttribute("publications", publicationRepository.findByUserOrderByTimestampDesc(user));
+        } else {
+            model.addAttribute("publications", publicationRepository.findByUserAndRestrictedIsFalseOrderByTimestampDesc(user));
+        }
         List<FriendshipRequest> requests = friendshipRequestRepository.findBySenderAndReceiverAndState(sessionUser, user, FriendshipRequest.State.OPEN);
         if (!requests.isEmpty()) {
             model.addAttribute("request", requests.get(0));
