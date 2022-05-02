@@ -27,6 +27,11 @@
                         <div class="pofile_desc mb-3" th:text="${user.getDescription()}">
                             Profile description
                         </div>
+                        <div class="statistics" th:if="${#authentication.principal.username == user.getEmail()}">
+                            <p style="text-decoration: underline; margin-bottom: 0;">Statistics: </p>
+                            <div>Number of publications:  <span th:text="${user.getNumberOfPublications()}">none</span></div>
+                            <div>Number of friends: <span th:text="${user.getNumberOfFriends()}">none</span></div>
+                        </div>
                     </div>
                         <div class="col-5" th:if="${#authentication.principal.username != user.getEmail()}">
                             <div th:if="${request == null && user.getFriends().contains(sessionUser)}">
@@ -58,9 +63,11 @@
                     </div>
                 </div>
                 </div>
+
                 <a th:href="@{/}" class="btn btn-success logout-btn mt-4  mb-2">
                     Back to main page
                 </a>
+
                 <div class="col-12">
                 <h3 class="mt-5">Publicaciones</h3>
                 <div class="publications">
