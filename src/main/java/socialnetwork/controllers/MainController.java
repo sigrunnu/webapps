@@ -1,6 +1,7 @@
 package socialnetwork.controllers;
 
 import java.util.Date;
+import java.time.LocalDate;
 import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import socialnetwork.model.Publication;
 import socialnetwork.model.PublicationRepository;
 import socialnetwork.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.text.SimpleDateFormat;
 
 import socialnetwork.services.FriendshipRequestException;
 import socialnetwork.services.FriendshipRequestService;
@@ -34,6 +36,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
+import java.util.ArrayList;
+
 
 
 @Controller
@@ -46,6 +50,21 @@ public class MainController {
     public String mainView(Model model, Principal principal, Publication publication) {        
         User user = userRepository.findByEmail(principal.getName());
         model.addAttribute("publications", publicationRepository.findFirst20ByUserInOrderByTimestampDesc(user.getFriends()));
+        List <User> sortedUsers = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        for (User user2 : user.getFriends()) {
+            if(user2.getBirthdate() != null){
+            LocalDate birthday = LocalDate.parse(user2.getBirthdate().toString().substring(0,10));
+            if(birthday.getMonth() == now.getMonth()){
+                if(now.getDayOfMonth()<birthday.getDayOfMonth() ){
+                sortedUsers.add(user2);
+                }
+             }
+             System.out.print(now.getDayOfYear());
+             System.out.print("dato" + birthday.getDayOfYear());
+        }
+    }
+        model.addAttribute("dates", sortedUsers);
         model.addAttribute("user", user);
         model.addAttribute("friendshipRequests", friendshipRequestRepository.findByReceiverAndState(user, FriendshipRequest.State.OPEN));
         return "main_view";
@@ -145,13 +164,19 @@ public class MainController {
    }  
 
    @PostMapping(path = "/postDesc")
-   public String postDescription(Principal principal, @RequestParam String description) {
-        
+   public String postDescription(Principal principal, @RequestParam String description, @RequestParam String birthdate){ 
         User user = userRepository.findByEmail(principal.getName());
         int userId = user.getId();
+        System.out.print(birthdate);
+        try {
+            Date date =  new SimpleDateFormat("yyyy-MM-dd").parse(birthdate);
+            user.setBirthdate(date);
+        }
+        catch (Exception e){  
+            return "redirect:/";
+        }
         user.setDescription(description);
         userRepository.save(user);
-        
         return "redirect:/user/" + Integer.toString(userId);
     } 
 
@@ -182,16 +207,7 @@ public class MainController {
         return "redirect:/user/" + user.getId();
     } 
     
-    /*
-    Get the logged in user and friend request items.
-
-    Invoke the corresponding service method to accept or decline the request.
-
-    If the request is accepted, redirect the user to the profile view of the user whose friend you just accepted.
-
-    If it is declined or an error occurs, redirect to the main page.
-    Restart the app, reply to any pending friend requests, and check the database to make sure the code is working properly:
-    */
+  
     @PostMapping(path = "/answerFriendshipRequest")
     public String answerFriendshipRequest(@RequestParam int requestId, @RequestParam String action, Principal principal) throws FriendshipRequestException {
         try{
@@ -212,11 +228,10 @@ public class MainController {
                 friendshipRequestService.declineFriendshipRequest(request, receiver);
                 
             }
-            System.out.print(action);
             return "redirect:/";
         }
         catch(Exception e){
-            return "redirect:/hei";
+            return "redirect:/";
         }
     }
 }
