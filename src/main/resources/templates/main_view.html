@@ -31,6 +31,23 @@
             </button>
           </form>          
       </div>
+      <div th:if="${!dates.isEmpty()}">
+        <div class="requests py-3" th:each="date : ${dates}">
+          <span th:text="${date.getName()}"></span>
+          <span>'s birthday is coming up this month on the</span>
+          <span th:text="${date.getBirthdate().getDate()}"></span>
+          <span>.</span>
+
+
+    </div>
+  </div>
+  <div th:if="${dates.isEmpty()}">
+    No birthdays are coming up this month!
+    
+  </div>
+
+
+
       <div class="row">
         <h2 class="col-12">Friendship requests:</h2>
         <div class="col-12">

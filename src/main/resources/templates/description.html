@@ -17,12 +17,12 @@
             
             <form class="col-12" th:action="@{/postDesc}" th:object="${user}" method="post">
                 <div>
-                    <textarea th:text="${user.getDescription()}" name="description" required></textarea>
+                    <textarea th:text="${user.getDescription()}" name="description"></textarea>
+                    <input type="date" max="2010-01-01" name="birthdate"/>
                 </div>
                 <div><input type="submit" value="Update"></div>
               </form>
             </div>
         </div>
-
     </body>
 </html>

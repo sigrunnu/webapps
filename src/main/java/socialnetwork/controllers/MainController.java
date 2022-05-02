@@ -14,6 +14,7 @@ import socialnetwork.model.Publication;
 import socialnetwork.model.PublicationRepository;
 import socialnetwork.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.text.SimpleDateFormat;
 
 import socialnetwork.services.FriendshipRequestException;
 import socialnetwork.services.FriendshipRequestService;
@@ -35,6 +36,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
+import java.util.ArrayList;
+
 
 
 @Controller
@@ -47,6 +50,18 @@ public class MainController {
     public String mainView(Model model, Principal principal, Publication publication) {        
         User user = userRepository.findByEmail(principal.getName());
         model.addAttribute("publications", publicationRepository.findFirst20ByUserInOrderByTimestampDesc(user.getFriends()));
+        List <User> sortedUsers = new ArrayList<>();
+        Date now = new Date();
+        for (User user2 : user.getFriends()) {
+            if(user2.getBirthdate().getMonth() == now.getMonth()){
+                if(now.getDate()<user2.getBirthdate().getDate() ){
+                sortedUsers.add(user2);
+                }
+             }
+             System.out.print(now.getDate());
+             System.out.print("dato" + user2.getBirthdate().getDate());
+        }
+        model.addAttribute("dates", sortedUsers);
         model.addAttribute("user", user);
         model.addAttribute("friendshipRequests", friendshipRequestRepository.findByReceiverAndState(user, FriendshipRequest.State.OPEN));
         return "main_view";
@@ -146,13 +161,18 @@ public class MainController {
    }  
 
    @PostMapping(path = "/postDesc")
-   public String postDescription(Principal principal, @RequestParam String description) {
-        
+   public String postDescription(Principal principal, @RequestParam String description, @RequestParam String birthdate){ 
         User user = userRepository.findByEmail(principal.getName());
         int userId = user.getId();
+        System.out.print(birthdate);
+        try {
+            Date date =  new SimpleDateFormat("yyyy-MM-dd").parse(birthdate);
+            user.setBirthdate(date);
+        }
+        catch (Exception e){  
+        }
         user.setDescription(description);
         userRepository.save(user);
-        
         return "redirect:/user/" + Integer.toString(userId);
     } 
 
@@ -206,11 +226,10 @@ public class MainController {
                 friendshipRequestService.declineFriendshipRequest(request, receiver);
                 
             }
-            System.out.print(action);
             return "redirect:/";
         }
         catch(Exception e){
-            return "redirect:/hei";
+            return "redirect:/";
         }
     }
 }
