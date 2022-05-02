@@ -73,18 +73,20 @@
                                     <span class="publication_public" th:if="${!publication.isRestricted()}">public</span>
                                     <span class="timestamp" th:text="${publication.getTimestamp()}">15 de marzo de 2021</span>
                                 </div>
-                                <div class="publication_text" th:text="${publication.getText()}">
-                                    El texto del mensaje
+                                <div class="row">
+                                    <div class="publication_text col-10" th:text="${publication.getText()}">
+                                        El texto del mensaje
+                                    </div>
+                                    <div class="delete-btn col-2" style="font-size: x-small;" th:if="${#authentication.principal.username == user.getEmail()}">
+                                        <form th:action="@{/deletePublication}" style="text-align: right; margin-top: -10px;">
+                                            <input type="hidden" class="btn btn-danger" th:value="${publication.getId()}" name="publicationId">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div th:if="${#authentication.principal.username == user.getEmail()}">
-                                    <form class="d-flex" th:action="@{/deletePublication}">
-                                        <input type="hidden" class="btn btn-danger" th:value="${publication.getId()}" name="publicationId">
-
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
