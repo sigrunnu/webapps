@@ -26,38 +26,39 @@
           <i class="fas fa-user"></i>
           <a th:href="@{/user/{userId}(userId=${user.getId()})}" th:text="${user.getName()}">User name</a>
           <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-success logout-btn">
+            <button type="submit" class="btn btn-dark logout-btn btn-sm">
               Sign out
             </button>
           </form>          
       </div>
       <div class="row">
-        <h2 class="col-12">Friendship requests:</h2>
+        <h3 class="col-12">Friend requests:</h3>
         <div class="col-12">
-            <div class="requests py-3" th:each="request : ${friendshipRequests}">
-              <div>From: <a th:href="@{/user/{id}(id=${request.getSender().getId()})}"><span th:text="${request.getSender().getName()}"></span></a></div>
+            <div class="requests py-1" th:each="request : ${friendshipRequests}">
+              <div><b>From: <a th:href="@{/user/{id}(id=${request.getSender().getId()})}"><span th:text="${request.getSender().getName()}"></span></a></b></div>
               <form th:action="@{/answerFriendshipRequest}" th:object="${friendshipRequests}" method="post">
                 <input type="hidden" name="requestId" th:value="${request.getId()}">
-                <input type="submit" class="btn btn-success" name="action" value="Accept">
-                <input type="submit" class="btn btn-danger" value="Decline" name="action">
+                <input type="submit" class="btn btn-purple-moon btn-sm"  name="action" value="Accept">
+                <input type="submit" class="btn btn-outline-primary btn-sm" value="Delete" name="action">
+                <hr/>
             </form>
           </div>
         </div>
       </div>
       <div class="row">
-        <h2 class="col-12">Últimas publicaciones</h2>
+        <h2 class="col-12">Latest posts</h2>
         <div class="publications col-12">
           <form th:action="@{/post}" th:object="${publication}" method="post">
             <div>
-                <textarea th:field="*{text}" placeholder="Your publication text here" required></textarea>
+                <textarea th:field="*{text}" class="form-control form-rounded" placeholder="Your publication text here" required></textarea>
             </div>
             <div>
                 <label>
-                    <input type="checkbox" th:field="*{restricted}">
+                    <input type="checkbox" class="form-rounded" th:field="*{restricted}">
                     For friends only
                 </label>
             </div>
-            <div><input type="submit" value="Post!"></div>
+            <div><input type="submit" class="btn btn-funky-moon btn-rounded logout-btn" value="Post publication"></div>
           </form>
           <div class="publication" th:each="publication : ${publications}">
             <div class="card">
