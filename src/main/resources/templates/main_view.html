@@ -28,7 +28,7 @@
       <div th:if="${!dates.isEmpty()}">
         <div class="requests py-3" th:each="date : ${dates}">
           <span th:text="${date.getName()}"></span>
-          <span>'s birthday iscoming up on the</span>
+          <span>'s birthday is coming up on the</span>
           <span th:text="${date.getBirthdate().getDate()}"></span>
           <spans>this month!</span>
 
@@ -38,7 +38,9 @@
         No birthdays are coming up this month!
       </div>
       <div class="row">
+        <div th:if="${!friendshipRequests.isEmpty()}">
         <h3 class="col-12">Friend requests:</h3>
+        </div>
         <div class="col-12">
           <div class="requests py-1" th:each="request : ${friendshipRequests}">
             <div><b>From: <a th:href="@{/user/{id}(id=${request.getSender().getId()})}"><span
