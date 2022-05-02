@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import java.util.List;
+import java.util.Date;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -38,6 +39,9 @@ public class User {
 
     @Lob
     private String description;
+
+    @Column(nullable = true)
+    private Date birthdate;
 
     @Column(nullable = false)
     @NotBlank
@@ -113,6 +117,13 @@ public class User {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
     public String getPassword() {

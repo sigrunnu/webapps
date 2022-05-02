@@ -27,10 +27,15 @@
                         <div class="pofile_desc mb-3" th:text="${user.getDescription()}">
                             Profile description
                         </div>
+<<<<<<< HEAD
+                        <div class="pofile_desc mb-3" th:text="${user.getBirthdate()}">
+                            Profile birthdate
+=======
                         <div class="statistics" th:if="${#authentication.principal.username == user.getEmail()}">
                             <p style="text-decoration: underline; margin-bottom: 0;">Statistics: </p>
                             <div>Number of publications:  <span th:text="${user.getNumberOfPublications()}">none</span></div>
                             <div>Number of friends: <span th:text="${user.getNumberOfFriends()}">none</span></div>
+>>>>>>> main
                         </div>
                     </div>
                         <div class="col-5" th:if="${#authentication.principal.username != user.getEmail()}">
@@ -59,7 +64,7 @@
 
                         </div>
                     <div class="col-4" th:if="${#authentication.principal.username == user.getEmail()}">
-                        <a th:href="@{/editDesc}">Edit description</a>
+                        <a th:href="@{/editDesc}">Edit profile</a>
                     </div>
                 </div>
                 </div>

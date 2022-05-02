@@ -1,0 +1,90 @@
+html {
+ height: 100%;
+}
+ 
+body {
+  margin-top: 3em;
+  margin-bottom: 3em;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(201,159,255,1) 27%, rgba(0,212,255,1) 100%);
+  height: 100%;
+  margin:3rem;
+}
+
+
+.loginRegisterBody{
+  background-color: whitesmoke;
+  height: fit-content;
+}
+
+
+.card-body {
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+}
+
+.publication .user {
+  font-weight: bold;
+}
+
+.publication .timestamp {
+  font-style: italic;
+}
+
+.publication {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.publication_text {
+  font-size: larger;
+}
+.profile {
+  text-align: right;
+}
+
+.profile_name {
+  font-size: 2rem;
+}
+
+.login-form > div {
+  padding: 1em 0;
+}
+
+.login-container {
+  max-width: 35%;
+  margin: auto;
+}
+
+.logout-btn {
+  margin-top: 0.3em;
+}
+.decline-button{
+  margin-left: 8px;
+}
+
+.form-rounded{
+  border-radius: 1rem;
+}
+
+
+.btn-funky-moon {
+  background: #A770EF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #fff;
+  border: 3px solid #eee;
+}
+
+.btn-purple-moon {
+  background: #4e54c8;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #fff;
+  border: 3px solid #eee;
+}
+
+.btn-rounded {
+  border-radius: 35px;
+}
