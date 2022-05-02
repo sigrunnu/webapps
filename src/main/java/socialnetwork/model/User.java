@@ -14,6 +14,10 @@ import java.util.List;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+
 
 @Entity
 public class User {
@@ -43,12 +47,30 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Publication> publications;
 
+    @ManyToMany
+    @JoinTable(name="friends",
+    joinColumns=@JoinColumn(name = "subject_id"),
+    inverseJoinColumns=@JoinColumn(name = "friend_id"))
+    private List<User> friends;
+
     public List<Publication> getPublications() {
         return publications;
     }
 
     public void setPublications(List<Publication> publications) {
         this.publications = publications;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    public void setFriend(User friend) {
+        this.friends.add(friend);
     }
 
     public Integer getId() {

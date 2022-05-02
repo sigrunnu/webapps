@@ -20,7 +20,7 @@
             </div>
             <div class="col-10 pl-2">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-7">
                         <div class="profile_name" th:text="${user.getName()}">
                             Profile user name
                         </div>
@@ -28,14 +28,39 @@
                             Profile description
                         </div>
                     </div>
-                    <div class="col-2" th:if="${#authentication.principal.username != user.getEmail()}">
-                        <button type="button" class="btn btn-success">Add friend</button>
-                    </div>
-                    <div class="col-2" th:if="${#authentication.principal.username == user.getEmail()}">
+                        <div class="col-5" th:if="${#authentication.principal.username != user.getEmail()}">
+                            <div th:if="${request == null && user.getFriends().contains(sessionUser)}">
+                                <p>You are friends.</p>
+                            </div>
+                             <div th:if="${request == null && !user.getFriends().contains(sessionUser)}">
+                                <form th:action="@{/requestFriendship}" method="post">
+                                <input type="hidden" name="userId" th:value="${user.getId()}">
+                                <input type="submit" class="btn btn-success" value="Request friendship">
+                            </form>
+                            </div>
+                            <div th:if="${request !=null }">
+                             <div th:if="${request.getSender() == sessionUser}">
+                                <p>Friend request is sent.</p>
+                            </div>
+                            <div th:if="${request.getReceiver() == sessionUser}">
+                                <p><span th:text="${user.getName()}"></span> has sendt you a friend request:</p>
+                                <form class="d-flex" th:action="@{/answerFriendshipRequest}"  method="post">
+                                    <input type="hidden" name="requestId" th:value="${request.getId()}">
+                                    <input type="submit" class="btn btn-success " name="action" value="Accept">
+                                    <input type="submit" class="btn btn-danger decline-button" value="Decline" name="action">
+                                </form>
+                            </div> 
+                        </div> 
+
+                        </div>
+                    <div class="col-4" th:if="${#authentication.principal.username == user.getEmail()}">
                         <a th:href="@{/editDesc}">Edit description</a>
                     </div>
                 </div>
                 </div>
+                <a th:href="@{/}" class="btn btn-success logout-btn mt-4  mb-2">
+                    Back to main page
+                </a>
                 <div class="col-12">
                 <h3 class="mt-5">Publicaciones</h3>
                 <div class="publications">
@@ -55,9 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <a th:href="@{/}" class="btn btn-success logout-btn mt-4">
-                    Back to main page
-                </a>
+               
             </div>
            
         </div>

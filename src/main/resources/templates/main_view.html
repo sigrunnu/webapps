@@ -29,7 +29,19 @@
             <button type="submit" class="btn btn-success logout-btn">
               Sign out
             </button>
-          </form>
+          </form>          
+      </div>
+      <div class="row">
+        <h2 class="col-12">Friendship requests:</h2>
+        <div class="col-12">
+            <div class="requests py-3" th:each="request : ${friendshipRequests}">
+              <div>From: <a th:href="@{/user/{id}(id=${request.getSender().getId()})}"><span th:text="${request.getSender().getName()}"></span></a></div>
+              <form th:action="@{/answerFriendshipRequest}" th:object="${friendshipRequests}" method="post">
+                <input type="hidden" name="requestId" th:value="${request.getId()}">
+                <input type="submit" class="btn btn-success" name="action" value="Accept">
+                <input type="submit" class="btn btn-danger" value="Decline" name="action">
+            </form>
+          </div>
         </div>
       </div>
       <div class="row">
