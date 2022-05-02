@@ -11,13 +11,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import java.util.List;
+import java.util.Date;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-
 
 @Entity
 public class User {
@@ -39,6 +38,9 @@ public class User {
     @Lob
     private String description;
 
+    @Column(nullable = true)
+    private Date birthdate;
+
     @Column(nullable = false)
     @NotBlank
     private String password;
@@ -48,9 +50,7 @@ public class User {
     private List<Publication> publications;
 
     @ManyToMany
-    @JoinTable(name="friends",
-    joinColumns=@JoinColumn(name = "subject_id"),
-    inverseJoinColumns=@JoinColumn(name = "friend_id"))
+    @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "subject_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<User> friends;
 
     public List<Publication> getPublications() {
@@ -64,7 +64,15 @@ public class User {
     public int getNumberOfPublications() {
         List<Publication> publications = getPublications();
         return publications.size();
-    } 
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
 
     public List<User> getFriends() {
         return friends;
@@ -73,7 +81,7 @@ public class User {
     public int getNumberOfFriends() {
         List<User> friends = getFriends();
         return friends.size();
-    } 
+    }
 
     public void setFriends(List<User> friends) {
         this.friends = friends;

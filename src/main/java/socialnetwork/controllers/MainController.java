@@ -14,6 +14,7 @@ import socialnetwork.model.Publication;
 import socialnetwork.model.PublicationRepository;
 import socialnetwork.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.text.SimpleDateFormat;
 
 import socialnetwork.services.FriendshipRequestException;
 import socialnetwork.services.FriendshipRequestService;
@@ -31,32 +32,40 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-
+import java.util.ArrayList;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
-
 
 @Controller
 @RequestMapping("/")
 public class MainController {
 
     @Autowired
-    FriendshipRequestRepository friendshipRequestRepository; 
+    FriendshipRequestRepository friendshipRequestRepository;
+
     @GetMapping(path = "/")
-    public String mainView(Model model, Principal principal, Publication publication) {        
+    public String mainView(Model model, Principal principal, Publication publication) {
         User user = userRepository.findByEmail(principal.getName());
-        model.addAttribute("publications", publicationRepository.findFirst20ByUserInOrderByTimestampDesc(user.getFriends()));
+        List<User> sortedUsers = new ArrayList<>();
+        Date now = new Date();
+        for (User user2 : user.getFriends()) {
+            if (user2.getBirthdate().getMonth() == now.getMonth()) {
+                if (now.getDate() < user2.getBirthdate().getDate()) {
+                    sortedUsers.add(user2);
+                }
+            }
+        }
+        model.addAttribute("dates", sortedUsers);
+        model.addAttribute("publications",
+                publicationRepository.findFirst20ByUserInOrderByTimestampDesc(user.getFriends()));
         model.addAttribute("user", user);
-        model.addAttribute("friendshipRequests", friendshipRequestRepository.findByReceiverAndState(user, FriendshipRequest.State.OPEN));
+        model.addAttribute("friendshipRequests",
+                friendshipRequestRepository.findByReceiverAndState(user, FriendshipRequest.State.OPEN));
         return "main_view";
     }
 
-  
-   
-
-
     @GetMapping(path = "/user/{userId}")
-    public String userView(@PathVariable int userId, Model model, Principal  principal) {
+    public String userView(@PathVariable int userId, Model model, Principal principal) {
         Optional<User> userOpt = userRepository.findById(userId);
         if (!userOpt.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
@@ -65,16 +74,19 @@ public class MainController {
         User user = userOpt.get();
         model.addAttribute("user", user);
         model.addAttribute("sessionUser", sessionUser);
-        if(user.getFriends().contains(sessionUser) || user == sessionUser ){
+        if (user.getFriends().contains(sessionUser) || user == sessionUser) {
             model.addAttribute("publications", publicationRepository.findByUserOrderByTimestampDesc(user));
         } else {
-            model.addAttribute("publications", publicationRepository.findByUserAndRestrictedIsFalseOrderByTimestampDesc(user));
+            model.addAttribute("publications",
+                    publicationRepository.findByUserAndRestrictedIsFalseOrderByTimestampDesc(user));
         }
-        List<FriendshipRequest> requests = friendshipRequestRepository.findBySenderAndReceiverAndState(sessionUser, user, FriendshipRequest.State.OPEN);
+        List<FriendshipRequest> requests = friendshipRequestRepository.findBySenderAndReceiverAndState(sessionUser,
+                user, FriendshipRequest.State.OPEN);
         if (!requests.isEmpty()) {
             model.addAttribute("request", requests.get(0));
         } else {
-            requests = friendshipRequestRepository.findBySenderAndReceiverAndState(user, sessionUser, FriendshipRequest.State.OPEN);
+            requests = friendshipRequestRepository.findBySenderAndReceiverAndState(user, sessionUser,
+                    FriendshipRequest.State.OPEN);
             if (!requests.isEmpty()) {
                 model.addAttribute("request", requests.get(0));
             } else {
@@ -104,8 +116,8 @@ public class MainController {
     // Código alternativo para el método "register" con mensaje POST:
     @PostMapping(path = "/register")
     public String register(@Valid @ModelAttribute("user") User user,
-                        BindingResult bindingResult,
-                        @RequestParam String passwordRepeat) {
+            BindingResult bindingResult,
+            @RequestParam String passwordRepeat) {
         if (bindingResult.hasErrors()) {
             return "register";
         }
@@ -125,8 +137,8 @@ public class MainController {
 
     @PostMapping(path = "/post")
     public String postPublication(@Valid @ModelAttribute("publication") Publication publication,
-                              BindingResult bindingResult,
-                              Principal principal) {
+            BindingResult bindingResult,
+            Principal principal) {
         if (bindingResult.hasErrors()) {
             return "redirect:/";
         }
@@ -137,30 +149,36 @@ public class MainController {
         return "redirect:/";
     }
 
-   @GetMapping(path = "/editDesc")
-   public String editDesc(Principal principal, Model model) {
-       User user = userRepository.findByEmail(principal.getName());
-       model.addAttribute("user", user);
-       return "description";
-   }  
+    @GetMapping(path = "/editDesc")
+    public String editDesc(Principal principal, Model model) {
+        User user = userRepository.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+        return "description";
+    }
 
-   @PostMapping(path = "/postDesc")
-   public String postDescription(Principal principal, @RequestParam String description) {
-        
+    @PostMapping(path = "/postDesc")
+    public String postDescription(Principal principal, @RequestParam String description,
+            @RequestParam String birthdate) {
         User user = userRepository.findByEmail(principal.getName());
         int userId = user.getId();
+        System.out.print(birthdate);
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(birthdate);
+            user.setBirthdate(date);
+        } catch (Exception e) {
+        }
         user.setDescription(description);
         userRepository.save(user);
-        
-        return "redirect:/user/" + Integer.toString(userId);
-    } 
 
-   @Autowired
-   private FriendshipRequestService friendshipRequestService; 
+        return "redirect:/user/" + Integer.toString(userId);
+    }
+
+    @Autowired
+    private FriendshipRequestService friendshipRequestService;
 
     @PostMapping(path = "/requestFriendship")
-    public String requestFriendship(@RequestParam int userId, Principal principal) throws FriendshipRequestException{
-        try{
+    public String requestFriendship(@RequestParam int userId, Principal principal) throws FriendshipRequestException {
+        try {
             Optional<User> userOpt = userRepository.findById(userId);
             if (!userOpt.isPresent()) {
                 return "redirect:/";
@@ -169,7 +187,7 @@ public class MainController {
             User receiver = userOpt.get();
             friendshipRequestService.createFriendshipRequest(sender, receiver);
             return "redirect:/user/" + receiver.getId();
-        } catch(Exception e) {
+        } catch (Exception e) {
             return "redirect:/";
 
         }
@@ -180,43 +198,44 @@ public class MainController {
         User user = userRepository.findByEmail(principal.getName());
         publicationRepository.deleteById(publicationId);
         return "redirect:/user/" + user.getId();
-    } 
-    
+    }
+
     /*
-    Get the logged in user and friend request items.
-
-    Invoke the corresponding service method to accept or decline the request.
-
-    If the request is accepted, redirect the user to the profile view of the user whose friend you just accepted.
-
-    If it is declined or an error occurs, redirect to the main page.
-    Restart the app, reply to any pending friend requests, and check the database to make sure the code is working properly:
-    */
+     * Get the logged in user and friend request items.
+     * 
+     * Invoke the corresponding service method to accept or decline the request.
+     * 
+     * If the request is accepted, redirect the user to the profile view of the user
+     * whose friend you just accepted.
+     * 
+     * If it is declined or an error occurs, redirect to the main page.
+     * Restart the app, reply to any pending friend requests, and check the database
+     * to make sure the code is working properly:
+     */
     @PostMapping(path = "/answerFriendshipRequest")
-    public String answerFriendshipRequest(@RequestParam int requestId, @RequestParam String action, Principal principal) throws FriendshipRequestException {
-        try{
+    public String answerFriendshipRequest(@RequestParam int requestId, @RequestParam String action, Principal principal)
+            throws FriendshipRequestException {
+        try {
             User receiver = userRepository.findByEmail(principal.getName());
             List<FriendshipRequest> requests = friendshipRequestRepository.findByReceiverAndState(receiver, State.OPEN);
             FriendshipRequest request = null;
             for (FriendshipRequest friendshipRequest : requests) {
-                if(friendshipRequest.getId() == requestId){
+                if (friendshipRequest.getId() == requestId) {
                     request = friendshipRequest;
                 }
             }
-           if(action.equals("Accept") && request != null){
-               friendshipRequestService.acceptFriendshipRequest(request, receiver);
-               User sender = request.getSender();
-               int id = sender.getId();
-               return "redirect:/user/" + Integer.toString(id);
-            }else if (action.equals("Decline") && request != null){
+            if (action.equals("Accept") && request != null) {
+                friendshipRequestService.acceptFriendshipRequest(request, receiver);
+                User sender = request.getSender();
+                int id = sender.getId();
+                return "redirect:/user/" + Integer.toString(id);
+            } else if (action.equals("Decline") && request != null) {
                 friendshipRequestService.declineFriendshipRequest(request, receiver);
-                
+
             }
-            System.out.print(action);
             return "redirect:/";
-        }
-        catch(Exception e){
-            return "redirect:/hei";
+        } catch (Exception e) {
+            return "redirect:/";
         }
     }
 }
