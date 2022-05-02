@@ -5,7 +5,6 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import socialnetwork.services.FriendshipRequestException;
 import socialnetwork.services.FriendshipRequestService;
-import socialnetwork.services.FriendshipRequestServiceImpl;
 import socialnetwork.services.UserService;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
