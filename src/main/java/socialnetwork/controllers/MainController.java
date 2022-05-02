@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 
 import socialnetwork.services.FriendshipRequestException;
 import socialnetwork.services.FriendshipRequestService;
-import socialnetwork.services.FriendshipRequestServiceImpl;
 import socialnetwork.services.UserService;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -196,6 +195,13 @@ public class MainController {
         }
     }
 
+    @GetMapping(path = "/deletePublication")
+    public String deletePublication(@RequestParam int publicationId, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+        publicationRepository.deleteById(publicationId);
+        return "redirect:/user/" + user.getId();
+    } 
+    
     /*
     Get the logged in user and friend request items.
 

@@ -34,10 +34,9 @@
       <div th:if="${!dates.isEmpty()}">
         <div class="requests py-3" th:each="date : ${dates}">
           <span th:text="${date.getName()}"></span>
-          <span>'s birthday is coming up this month on the</span>
+          <span>'s birthday iscoming up on the</span>
           <span th:text="${date.getBirthdate().getDate()}"></span>
-          <span>.</span>
-
+          <spans>this month!</span>
 
     </div>
   </div>
