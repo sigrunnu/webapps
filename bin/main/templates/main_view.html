@@ -25,10 +25,11 @@
           </button>
         </form>
       </div>
+    <h3 class="mt-2">Birthdays:</h3>
       <div th:if="${!dates.isEmpty()}">
         <div class="requests py-3" th:each="date : ${dates}">
-          <span th:text="${date.getName()}"></span>
-          <span>'s birthday is coming up on the</span>
+          <a th:href="@{/user/{id}(id=${date.getId()})}"><span th:text="${date.getName()}"></span>
+          <span>'s birthday is coming up on the</span></a>
           <span th:text="${date.getBirthdate().getDate()}"></span>
           <spans>this month!</span>
 

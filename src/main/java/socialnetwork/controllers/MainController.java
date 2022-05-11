@@ -60,8 +60,6 @@ public class MainController {
                 sortedUsers.add(user2);
                 }
              }
-             System.out.print(now.getDayOfYear());
-             System.out.print("dato" + birthday.getDayOfYear());
         }
     }
         model.addAttribute("dates", sortedUsers);
