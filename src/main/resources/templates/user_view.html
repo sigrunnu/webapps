@@ -31,6 +31,8 @@
                             <p style="text-decoration: underline; margin-bottom: 0;">Statistics: </p>
                             <div>Number of publications: <span th:text="${user.getNumberOfPublications()}">none</span>
                             </div>
+                            <div>Number of restricted publications: <span th:text="${user.getNumberOfRestrictedPublications()}">none</span>
+                            </div>
                             <div>Number of friends: <span th:text="${user.getNumberOfFriends()}">none</span></div>
                         </div>
                     </div>

@@ -66,6 +66,17 @@ public class User {
         return publications.size();
     }
 
+    public int getNumberOfRestrictedPublications(){
+        List<Publication> publications = getPublications();
+        int counter = 0;
+        for (Publication publication : publications){
+            if (publication.isRestricted()){
+                counter++;
+            } 
+        } 
+        return counter;
+    } 
+
     public Date getBirthdate() {
         return birthdate;
     }
