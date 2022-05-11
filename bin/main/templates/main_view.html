@@ -47,8 +47,8 @@
                     th:text="${request.getSender().getName()}"></span></a></b></div>
             <form th:action="@{/answerFriendshipRequest}" th:object="${friendshipRequests}" method="post">
               <input type="hidden" name="requestId" th:value="${request.getId()}">
-              <input type="submit" class="btn btn-purple-moon btn-sm" name="action" value="Accept">
-              <input type="submit" class="btn btn-outline-primary btn-sm" value="Delete" name="action">
+              <input type="submit" class="btn btn-purple-moon" name="action" value="Accept">
+              <input type="submit" class="btn btn-outline-primary" value="Delete" name="action">
               <hr />
             </form>
           </div>
