@@ -14,19 +14,21 @@
     <div class="container login-container card p-5 mx-auto">
         <div class="row justify-content-center">
             <div class="col-12 text-left">
-                Edit description
+                Edit description:
             </div>
 
             <form class="col-12" th:action="@{/postDesc}" th:object="${user}" method="post">
                 <div>
-                    <textarea th:text="${user.getDescription()}" name="description"></textarea>
+                    <textarea class="form-control" th:text="${user.getDescription()}" name="description"></textarea>
+                    <br>
                     <div>
                         You current birthdate: <span th:text="${user.getBirthdate()}"></span>
                         <br>
                         <input type="date" max="2010-01-01" name="birthdate" />
                     </div>
                 </div>
-                <div><input type="submit" value="Update"></div>
+                <br>
+                <div><input class="btn btn-funky-moon btn-rounded logout-btn" type="submit" value="Update"></div>
             </form>
         </div>
     </div>
