@@ -82,8 +82,12 @@ public class User {
     }
 
     public String getFormattedBirthdate() {
+        if(birthdate != null) {
         String formattedBirthDate = birthdate.toString().substring(0,10);
         return formattedBirthDate;
+    }
+        return null;
+        
     }
 
 
