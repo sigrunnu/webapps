@@ -20,7 +20,11 @@
             <form class="col-12" th:action="@{/postDesc}" th:object="${user}" method="post">
                 <div>
                     <textarea th:text="${user.getDescription()}" name="description"></textarea>
-                    <input type="date" max="2010-01-01" name="birthdate" />
+                    <div>
+                        You current birthdate: <span th:text="${user.getBirthdate()}"></span>
+                        <br>
+                        <input type="date" max="2010-01-01" name="birthdate" />
+                    </div>
                 </div>
                 <div><input type="submit" value="Update"></div>
             </form>

@@ -168,15 +168,16 @@ public class MainController {
         User user = userRepository.findByEmail(principal.getName());
         int userId = user.getId();
         System.out.print(birthdate);
+       
+        user.setDescription(description);
+        userRepository.save(user);
         try {
             Date date =  new SimpleDateFormat("yyyy-MM-dd").parse(birthdate);
             user.setBirthdate(date);
         }
         catch (Exception e){  
-            return "redirect:/";
+            return "redirect:/user/" + Integer.toString(userId);
         }
-        user.setDescription(description);
-        userRepository.save(user);
         return "redirect:/user/" + Integer.toString(userId);
     } 
 
