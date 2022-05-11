@@ -165,13 +165,13 @@ public class MainController {
    public String postDescription(Principal principal, @RequestParam String description, @RequestParam String birthdate){ 
         User user = userRepository.findByEmail(principal.getName());
         int userId = user.getId();
-        System.out.print(birthdate);
        
         user.setDescription(description);
         userRepository.save(user);
         try {
             Date date =  new SimpleDateFormat("yyyy-MM-dd").parse(birthdate);
             user.setBirthdate(date);
+            userRepository.save(user);
         }
         catch (Exception e){  
             return "redirect:/user/" + Integer.toString(userId);

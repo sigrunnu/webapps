@@ -30,6 +30,10 @@
                         <div class="pofile_desc mb-3" th:text="${user.getDescription()}">
                             Profile description
                         </div>
+                        <div th:if="${user.getBirthdate() != null}" class="pofile_birth mb-3">
+                            <div class="text-decoration-underline">Birth date:</div> 
+                            <span th:text="${user.getFormattedBirthdate()}"></span> 
+                        </div>
                         <div class="statistics" th:if="${#authentication.principal.username == user.getEmail()}">
                             <p style="text-decoration: underline; margin-bottom: 0;">Statistics: </p>
                             <div>Number of publications: <span th:text="${user.getNumberOfPublications()}">none</span>

@@ -22,9 +22,7 @@
                     <textarea class="form-control" th:text="${user.getDescription()}" name="description"></textarea>
                     <br>
                     <div>
-                        You current birthdate: <span th:text="${user.getBirthdate()}"></span>
-                        <br>
-                        <input type="date" max="2010-01-01" name="birthdate" />
+                        <input th:value="${user.getFormattedBirthdate()}" type="date" max="2010-01-01" name="birthdate" />
                     </div>
                 </div>
                 <br>

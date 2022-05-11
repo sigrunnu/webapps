@@ -29,13 +29,13 @@
       <div th:if="${!dates.isEmpty()}">
         <div class="requests py-3" th:each="date : ${dates}">
           <a th:href="@{/user/{id}(id=${date.getId()})}"><span th:text="${date.getName()}"></span>
-          <span>'s birthday is coming up on the</span></a>
+          <span>'s</span></a><span> birthday is coming up on the</span>
           <span th:text="${date.getBirthdate().getDate()}"></span>
           <spans>this month!</span>
 
         </div>
       </div>
-      <div th:if="${dates.isEmpty()}">
+      <div class="pb-3" th:if="${dates.isEmpty()}">
         No birthdays are coming up this month!
       </div>
       <div class="row">
